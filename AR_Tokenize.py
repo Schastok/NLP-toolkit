@@ -4,6 +4,9 @@ Created on Jan 31, 2015
 
 @author: robin
 '''
+import re
+from nltk.stem.isri import ISRIStemmer
+
 
 class ArabicTokenizer():
     '''
@@ -25,8 +28,7 @@ class ArabicTokenizer():
         self.trainset = goldset.difference(testset)
         
     def tokenize(self, data):
-        import re
-        from nltk.stem.isri import ISRIStemmer
+
         st = ISRIStemmer()
         pre_enclitics_1 = [u"ب", u"ل", u"ك", u"و", u"ف"]
         pre_enclitics_2 = [u"بال", u"كال"]
@@ -93,7 +95,6 @@ class ArabicTokenizer():
 
 import cPickle
 import nltk
-import re
 
 stopwords = open("stopwords_ar.txt", "r")
 quran = open ("quran-simple-clean.txt", "r")
@@ -123,10 +124,6 @@ mytrainingdata = []
 mytrainingdata.append(mytest[:5000])
 mytrainingdata.append(mygold[:5000])
 
-mytestdata = []
-mytestdata.append(mytest[5001:])
-mytestdata.append(mygold[5001:])
-
 stop  = readin(stopwords)
 mystopwords = []
 for i in stop:
@@ -137,4 +134,3 @@ for i in stop:
 mytokenizer = ArabicTokenizer(mystopwords, mytrainingdata)
 
 
-cPickle.dump(mytokenizer, open("arabtokenizer", "wb"), protocol=1)
